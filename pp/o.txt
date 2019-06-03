@@ -1,0 +1,34 @@
+let first = document.querySelector('.left');
+let second = document.querySelector('.right');
+function resize(amount) {
+  first.style.width = amount + "%";
+  second.style.width = (100 - amount) + "%";  
+}
+function darken(amount) {
+  first.style.filter = "brightness(" + (amount + 0) / 100  + ")";
+  second.style.filter = "brightness(" + (100 - amount + 0)  / 100 + ")"; 
+}
+function show(amount) {
+  first.textContent = amount + "%";
+  second.textContent = 100 - amount + "%";
+}
+function handleMove(e) {
+  let procent = e.pageX;
+  let calculated = procent / window.innerWidth * 100;
+  calculated = Number(calculated.toFixed(0));
+  if ( calculated <= 5 ) {
+    calculated = 5;
+  } else if ( calculated >= 95 ) {
+    calculated = 95;
+  }
+ resize(calculated);
+ show(calculated);
+ darken(calculated);
+}
+document.addEventListener('mousedown', function(e) {
+  handleMove(e, true);
+  document.addEventListener('mousemove', handleMove)
+})
+document.addEventListener('mouseup', function() {
+  document.removeEventListener('mousemove', handleMove)
+})
